@@ -25,3 +25,11 @@ npm install
 npm run dev
 ```
 ![running app](https://github.com/user-attachments/assets/d882c2ec-2539-49eb-990a-3b0669af26b6)
+
+==========================================================================================
+
+1. make sure .gitignore **/.terraform/
+
+2. terraform does not show error messages. create a customized log file.
+
+3. seed the database after each terraform apply

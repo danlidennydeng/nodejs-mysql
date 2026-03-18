@@ -16,15 +16,25 @@ data "aws_ami" "ubuntu" {
 
 resource "aws_instance" "tf-ec2-instance" {
   ami = data.aws_ami.ubuntu.id
-  instance_type = "t3.micro"
+  instance_type = var.instance_type
 	associate_public_ip_address = true
 	vpc_security_group_ids = [ aws_security_group.tf_ec2_sg.id ]
 	key_name = "terraform-ec2"
-	depends_on = [ aws_s3_object.tf_s3_object ]
-	user_data = file("userdata.sh")
+
+	depends_on = [ aws_s3_object.tf_s3_object, aws_db_instance.tf_rds_instance ]
+	
+	user_data = templatefile("${path.module}/userdata.sh", {
+  #db_host = aws_db_instance.tf_rds_instance.endpoint, it has :3306
+	db_host = aws_db_instance.tf_rds_instance.address
+  db_user = aws_db_instance.tf_rds_instance.username
+  db_pass = aws_db_instance.tf_rds_instance.password
+  db_name = aws_db_instance.tf_rds_instance.db_name
+})
 
 	user_data_replace_on_change = true 
-  tags = {
+	#after success of deployment, you might want to commont out above so that you can use the same EC2 instance
+  
+	tags = {
     Name = "nodejs-server"
   }
 }
@@ -62,4 +72,8 @@ resource "aws_security_group" "tf_ec2_sg" {
 		protocol = "-1"
 		cidr_blocks = [ "0.0.0.0/0" ]
 	}
+}
+
+output "ec2_public_ip" {
+	value = "ssh -i ~/.ssh/terraform-ec2.pem ubuntu@${aws_instance.tf-ec2-instance.public_ip}"
 }
