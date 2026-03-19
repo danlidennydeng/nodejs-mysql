@@ -14,7 +14,7 @@ data "aws_ami" "ubuntu" {
   }
 }
 
-resource "aws_instance" "tf-ec2-instance" {
+resource "aws_instance" "tf_ec2_instance" {
   ami = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
 	associate_public_ip_address = true
@@ -74,6 +74,8 @@ resource "aws_security_group" "tf_ec2_sg" {
 	}
 }
 
-output "ec2_public_ip" {
-	value = "ssh -i ~/.ssh/terraform-ec2.pem ubuntu@${aws_instance.tf-ec2-instance.public_ip}"
-}
+# module "tf_module.ec2_sg" {
+# 	source  = "terraform-aws-modules/security-group/aws"
+# 	version = "5.3.1"
+# }
+

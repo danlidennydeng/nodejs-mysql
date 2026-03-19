@@ -33,3 +33,13 @@ npm run dev
 2. terraform does not show error messages. create a customized log file.
 
 3. seed the database after each terraform apply
+
+4. terraform is not 100% as exactly as the tutorial. However, it is based on suggestions from chatGPT to compliant to practical industry standard.
+
+5. ubuntu@ip-172-31-28-137:~/nodejs-mysql$ node -v
+v20.20.1
+ubuntu@ip-172-31-28-137:~/nodejs-mysql$ exit
+logout
+Connection to 54.152.170.174 closed.
+(base) ➜  terraform git:(main) ✗ node -v                                              
+v20.11.1

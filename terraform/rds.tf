@@ -40,17 +40,3 @@ resource "aws_security_group" "tf_rds_sg" {
 # 	rds_endpoint = element(split(":", aws_db_instance.tf_rds_instance.endpoint), 0)
 # }
 
-output "rds_endpoint" {
-	value = aws_db_instance.tf_rds_instance.address
-	
-}
-
-output "rds_username" {
-	value = aws_db_instance.tf_rds_instance.username
-	
-}
-
-output "db_name" {
-	value = aws_db_instance.tf_rds_instance.db_name
-	
-}
